@@ -1,5 +1,28 @@
 import random
 
+def get_file():
+    file = None
+
+    # loops until the user inputs a proper filename
+    while file is None:
+        try:
+            file = open(input("Enter the name of the file containing a list of words to play Hangman!"))
+
+        except IOError as e:
+            print("An error occurred, please check the file name.")
+
+    return file
+
+def read_file(file):
+    # creates a list of words based on the contents of the file
+    words = []
+    for line in file:
+        word = line.strip()
+        words.append(word)
+
+    file.close()
+    return words
+
 def display_interface(solution, interface):
     print('\n')
     for x in range(len(solution)):
@@ -36,9 +59,9 @@ def game(solution: str):
                 guessing = False
             # prints "You guessed incorrectly." and decrements lives of user
             else:
-                print(f"You guessed incorrectly. The word was not \"{guess}\".")
+                print("You guessed incorrectly.")
                 lives -= 1
-                print(f"You have {lives} guess(es) remaining.")
+                print(f"You have {lives} guesses remaining.")
                 display_interface(solution, interface)
                 if lives == 0:
                     print(f"The word was {solution}.")
@@ -63,7 +86,7 @@ def game(solution: str):
                 display_interface(solution, interface)
                 # checks if user has spelled the entire word without guessing it
                 if set(correct_letters) == set(solution):
-                    print(f"You won! The word was \"{solution}\"!")
+                    print(f"You won! The word was {solution}!")
                     guessing = False
             # activates if guess is incorrect
             else:
@@ -71,7 +94,7 @@ def game(solution: str):
                 incorrect_letters.append(guess)
                 print(f"'{guess}' is not in the word.")
                 lives -= 1
-                print(f"You haves {lives} guess(es) remaining.")
+                print(f"You haves {lives} guesses remaining.")
                 display_interface(solution, interface)
                 if lives == 0:
                     print(f"The word was {solution}.")
@@ -81,9 +104,16 @@ def game(solution: str):
             print("Don't give up!")
             display_interface(solution, interface)
 
-def main():
-    words = ["banana", "apple", "orange", "strawberry", "grape", "cherry", "mango", "pear", "peach", "lemon", "tomato", "potato", "lettuce", "carrot", "onion", "pumpkin", "broccoli", "eggplant", "spinach", "corn"]
 
+
+def main():
+    # gets file
+    file = get_file()
+
+    # creates list of words based on file
+    words = read_file(file)
+
+    # selects random word from file
     solution = random.choice(words)
     playing = True
 
