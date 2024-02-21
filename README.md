@@ -1,0 +1,1 @@
+The Hangman Project.py file while initiate a game of Hangman when executed. The list of potential words for the game of Hangman is in the words.txt file. You can add or remove words to the file as desired. Each word should go on a separate line. The Hangman Project.py file and words.txt file must be placed in the same folder when ran in order to execute properly.
